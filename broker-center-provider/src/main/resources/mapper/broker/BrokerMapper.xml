@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tops001.broker.dao.IBrokerMapper">
+    <select id="getBrokerCount" parameterType="com.tops001.domain.broker.parameters.BrokerParameter" resultType="Long">
+        SELECT
+        count(1)
+        FROM tbc_broker b
+        <if test="param != null">
+            LEFT JOIN tbc_broker_shop s ON b.shop_id = s.shop_id
+            <if test="param.companyId != null and param.companyId != 0">
+                LEFT JOIN tbc_broker_company c ON s.company_id = c.company_id
+            </if>
+            <where>
+                <!--城市ID-->
+                <if test="param.cityId != null and param.cityId != 0 ">
+                    AND s.city_id = #{param.cityId}
+                </if>
+
+                <if test="param.companyId != null and param.companyId != 0">
+                    AND s.company_id = #{param.companyId}
+                </if>
+
+                <if test="param.shopId != null and param.shopId != 0">
+                    AND s.shop_id = #{param.shopId}
+                </if>
+
+                <!--学历-->
+                <if test="param.education != null and param.education != 0 ">
+                    AND b.education = #{param.education}
+                </if>
+
+                <!--经纪人状态-->
+                <if test="param.brokerStatus != null and param.brokerStatus != 5">
+                    AND b.broker_status = #{param.brokerStatus}
+                </if>
+
+                <!--性别-->
+                <if test="param.gender != null and param.gender != 0 ">
+                    AND b.gender = #{param.gender}
+                </if>
+
+                <!--婚姻状况-->
+                <if test="param.hasMarriage != null and param.hasMarriage != 4">
+                    AND b.has_marriage = #{param.hasMarriage}
+                </if>
+
+                <!--年龄区间-->
+                <if test="param.age !=null and param.age != 0">
+                    AND b.birthday &lt; #{param.ageStartDate}
+                </if>
+                <!--年龄区间-->
+                <if test="param.age !=null and param.age != 0">
+                    AND (b.birthday &gt; #{param.ageEndDate})
+                </if>
+
+                <!--工作年限区间-->
+                <if test="param.workingYears !=null and param.workingYears != 0">
+                    AND b.working_time &lt; #{param.workStartDate}
+                </if>
+                <!--工作年限区间-->
+                <if test="param.workingYears !=null and param.workingYears != 0">
+                    AND (b.working_time &gt; #{param.workEndDate})
+                </if>
+
+                <!--经纪人类型-->
+                <if test="param.brokerRole == 1 ">
+                    AND b.shop_id = 0
+                </if>
+                <if test="param.brokerRole == 2 ">
+                    AND b.shop_id != 0
+                </if>
+
+                <if test="param.brokerName != null and param.brokerName != '' ">
+                    AND broker_name like CONCAT('%','${param.brokerName}','%' )
+                </if>
+
+            </where>
+        </if>
+    </select>
+
+    <!--ID：系统中自动生成的经纪人编号；姓名;所属门店;性别;年龄;学历;从业年限；手机号码；状态-->
+    <select id="findBrokerList" parameterType="com.tops001.domain.broker.parameters.BrokerParameter"
+            resultType="broker">
+        SELECT
+        b.broker_id,b.broker_name,s.shop_id,s.shop_name,b.gender,b.phone,b.birthday,b.working_time,b.education,b.broker_status
+        FROM tbc_broker b
+        LEFT JOIN tbc_broker_shop s ON b.shop_id = s.shop_id
+        <if test="companyId != null and companyId != 0">
+            LEFT JOIN tbc_broker_company c ON s.company_id = c.company_id
+        </if>
+        <where>
+            <!--城市ID-->
+            <if test="cityId != null and cityId != 0 ">
+                AND s.city_id = #{cityId}
+            </if>
+
+            <if test="companyId != null and companyId != 0">
+                AND s.company_id = #{companyId}
+            </if>
+
+            <if test="shopId != null and shopId != 0">
+                AND s.shop_id = #{shopId}
+            </if>
+
+            <!--学历-->
+            <if test="education != null and education != 0 ">
+                AND b.education = #{education}
+            </if>
+
+            <!--经纪人状态-->
+            <if test="brokerStatus != null and brokerStatus != 5">
+                AND b.broker_status = #{brokerStatus}
+            </if>
+
+            <!--性别-->
+            <if test="gender != null and gender != 0 ">
+                AND b.gender = #{gender}
+            </if>
+
+            <!--婚姻状况-->
+            <if test="hasMarriage != null and hasMarriage != 4">
+                AND b.has_marriage = #{hasMarriage}
+            </if>
+
+            <!--年龄区间-->
+            <if test="age !=null and age != 0">
+                AND b.birthday &lt; #{ageStartDate}
+            </if>
+            <!--年龄区间-->
+            <if test="age !=null and age != 0">
+                AND (b.birthday &gt; #{ageEndDate})
+            </if>
+
+            <!--工作年限区间-->
+            <if test="workingYears !=null and workingYears != 0">
+                AND b.working_time &lt; #{workStartDate}
+            </if>
+            <!--工作年限区间-->
+            <if test="workingYears !=null and workingYears != 0">
+                AND (b.working_time &gt; #{workEndDate})
+            </if>
+
+            <if test="brokerName != null and brokerName != '' ">
+                AND broker_name like CONCAT('%','${brokerName}','%' )
+            </if>
+
+            <!--经纪人类型-->
+            <if test="brokerRole ==1">
+                AND b.shop_id = 0
+            </if>
+            <if test="brokerRole ==2">
+                AND b.shop_id != 0
+            </if>
+
+        </where>
+        limit #{startRow},#{pageSize}
+    </select>
+
+    <select id="findBrokerByBrokerId" parameterType="java.lang.Integer" resultType="broker">
+        SELECT b.*,s.shop_id,s.shop_name,c.company_id,c.company_name,c.city_id,c.city_name
+        FROM tbc_broker b
+        LEFT JOIN tbc_broker_shop s ON b.shop_id = s.shop_id
+        LEFT JOIN tbc_broker_company c ON s.company_id = c.company_id
+        WHERE b.broker_id = #{companyId,jdbcType=INTEGER}
+    </select>
+
+    <select id="findTopTenBrokerList" parameterType="com.tops001.domain.broker.parameters.BrokerTopParameter"
+            resultType="broker">
+        SELECT
+        b.broker_id,b.broker_name,s.shop_id,s.shop_name
+        FROM tbc_broker b
+        LEFT JOIN tbc_broker_shop s ON b.shop_id = s.shop_id
+        <where>
+            <if test="cityId != null and cityId != 0">
+                AND city_id = #{cityId}
+            </if>
+        </where>
+        <if test="orderByIndex != null and orderByIndex != ''">
+            ORDER BY ${orderByName}
+        </if>
+        <if test="pageSize != null and pageSize != 0 ">
+            limit #{pageSize}
+        </if>
+    </select>
+
+
+</mapper>

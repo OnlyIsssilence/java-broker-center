@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd ">
+
+    <!-- 自动扫描的 标志为Controller的类 -->
+    <context:component-scan base-package="com.tops001">
+    </context:component-scan>
+
+    <!--cxf service -->
+    <!--<import resource="webservice/cxf-service.xml" />-->
+
+    <!--dubbott -->
+    <import resource="dubbott.xml" />
+
+    <!-- 导入redis配置 -->
+    <import resource="spring-data-redis.xml" />
+
+    <!-- 导入spring-quartz配置 -->
+    <!--<import resource="spring-quartz.xml" />-->
+
+    <!-- 动态数据源 -->
+    <bean id="dynamicDataSource" class="com.tops001.core.component.DbReadWriteDataSource">
+        <property name="defaultTargetDataSource" ref="writeDataSource" />
+        <constructor-arg index="0" ref="writeDataSource" />
+        <constructor-arg index="1">
+            <list>
+                <array>
+                    <value>read_1</value>
+                    <ref bean="readDataSource_1" />
+                </array>
+                <array>
+                    <value>read_2</value>
+                    <ref bean="readDataSource_2" />
+                </array>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- 写数据源 -->
+    <bean id="writeDataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${write.db.core.driverClassName}" />
+        <property name="url" value="${write.db.core.url}" />
+        <property name="username" value="${write.db.core.username}" />
+        <property name="password" value="${write.db.core.password}" />
+        <property name="maxActive" value="30" />
+        <property name="maxIdle" value="30" />
+        <property name="minIdle" value="5" />
+        <property name="initialSize" value="5" />
+        <property name="validationQuery" value="select 1" />
+        <property name="testOnBorrow" value="true" />
+        <property name="testOnReturn" value="true" />
+        <property name="testWhileIdle" value="true" />
+        <property name="jmxEnabled" value="true" />
+        <property name="maxWait" value="15000" />
+        <property name="initSQL" value="set names utf8mb4;" />
+    </bean>
+
+    <!-- 读数据源1 -->
+    <bean id="readDataSource_1" class="org.apache.tomcat.jdbc.pool.DataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${read.1.db.core.driverClassName}" />
+        <property name="url" value="${read.1.db.core.url}" />
+        <property name="username" value="${read.1.db.core.username}" />
+        <property name="password" value="${read.1.db.core.password}" />
+        <property name="maxActive" value="30" />
+        <property name="maxIdle" value="30" />
+        <property name="minIdle" value="5" />
+        <property name="initialSize" value="5" />
+        <property name="validationQuery" value="select 1" />
+        <property name="testOnBorrow" value="true" />
+        <property name="testOnReturn" value="true" />
+        <property name="testWhileIdle" value="true" />
+        <property name="maxWait" value="15000" />
+        <property name="initSQL" value="set names utf8mb4;" />
+    </bean>
+
+    <!-- 读数据源2 -->
+    <bean id="readDataSource_2" class="org.apache.tomcat.jdbc.pool.DataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${read.2.db.core.driverClassName}" />
+        <property name="url" value="${read.2.db.core.url}" />
+        <property name="username" value="${read.2.db.core.username}" />
+        <property name="password" value="${read.2.db.core.password}" />
+        <property name="maxActive" value="30" />
+        <property name="maxIdle" value="30" />
+        <property name="minIdle" value="5" />
+        <property name="initialSize" value="5" />
+        <property name="validationQuery" value="select 1" />
+        <property name="testOnBorrow" value="true" />
+        <property name="testOnReturn" value="true" />
+        <property name="testWhileIdle" value="true" />
+        <property name="maxWait" value="15000" />
+        <property name="initSQL" value="set names utf8mb4;" />
+    </bean>
+
+    <!-- 事务管理器 -->
+    <bean id="tbcMnger"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dynamicDataSource"></property>
+    </bean>
+
+    <!-- 事务规则 -->
+    <tx:advice id="tbcAdvice" transaction-manager="tbcMnger">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="del*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="upd*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="edit*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="do*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+            <tx:method name="*"  propagation="SUPPORTS" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut id="myCut"
+                      expression="execution(* com.tops001.*.dao.impl..*.*(..))" />
+        <aop:advisor advice-ref="tbcAdvice" pointcut-ref="myCut"
+                     order="1" />
+    </aop:config>
+
+    <!-- SqlMapClient -->
+    <bean id="sqlSessionFactory" class="com.tops001.core.component.MybatisFactroy">
+        <property name="dataSource" ref="dynamicDataSource" />
+        <property name="configLocation" value="classpath:mybatis.xml" />
+        <property name="typeAliasesPackage">
+            <list>
+                <value>classpath:com/tops001/**/entity/*</value>
+            </list>
+        </property>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mapper/**/*.xml</value>
+            </list>
+        </property>
+        <property name="plugins">
+            <array>
+                <bean class="com.tops001.core.orm.mybatis.plugin.PagePlugin">
+                    <property name="dialect">
+                        <bean class="com.tops001.core.orm.mybatis.dialect.MySql5Dialect"></bean>
+                    </property>
+                    <property name="pageNoName" value="pageIndex"></property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.tops001.**.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+
+    <bean id="dynamicSourceIntercept" class="com.tops001.core.component.DbReadWriteIntercept" />
+    <aop:config proxy-target-class="true">
+        <aop:aspect ref="dynamicSourceIntercept" order="0">
+            <aop:pointcut id="dynamicCut" expression="execution(* com.tops001.*.dao.impl.*.*(..))" />
+            <aop:around method="around" pointcut-ref="dynamicCut" />
+        </aop:aspect>
+    </aop:config>
+
+    <!-- 日志 -->
+    <bean id="serviceLogInterceptor" class="com.tops001.core.component.log.ServiceLogInterceptor" />
+    <aop:config>
+        <aop:aspect ref="serviceLogInterceptor" order="0">
+            <aop:pointcut id="serviceLogCut" expression="execution(* com.tops001.*.service.*.*(..))" />
+            <aop:around method="around" pointcut-ref="serviceLogCut" />
+        </aop:aspect>
+    </aop:config>
+
+    <!--httpinvoker -->
+    <bean id="oauthHttpInvoker"
+          class="com.tops001.core.component.http.factory.HttpInvokerFactory">
+        <property name="targetInterface"
+                  value="com.tops001.httpInvoker.IOauthHttpInvoker" />
+        <property name="baseUrl" value="${oauth_url}" />
+    </bean>
+
+    <!--线程池-->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5"/>
+        <property name="maxPoolSize" value="10" />
+        <property name="waitForTasksToCompleteOnShutdown" value="true" />
+    </bean>
+
+
+    <!-- 配置信息加载 -->
+    <beans profile="test">
+        <bean id="configBean" class="com.tops001.core.utils.PropertyConfigurer">
+            <property name="location" value="classpath:config-test.properties" />
+        </bean>
+    </beans>
+
+    <beans profile="beta">
+        <bean id="configBean" class="com.tops001.core.utils.PropertyConfigurer">
+            <property name="location" value="classpath:config-pre.properties" />
+        </bean>
+    </beans>
+
+    <beans profile="product">
+        <bean id="configBean" class="com.tops001.core.utils.PropertyConfigurer">
+            <property name="location" value="classpath:config-product.properties" />
+        </bean>
+    </beans>
+
+</beans>

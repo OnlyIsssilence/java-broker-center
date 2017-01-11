@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ - Copyright 1999-2011 Alibaba Group.
+ -
+ - Licensed under the Apache License, Version 2.0 (the "License");
+ - you may not use this file except in compliance with the License.
+ - You may obtain a copy of the License at
+ -
+ -      http://www.apache.org/licenses/LICENSE-2.0
+ -
+ - Unless required by applicable law or agreed to in writing, software
+ - distributed under the License is distributed on an "AS IS" BASIS,
+ - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ - See the License for the specific language governing permissions and
+ - limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="broker-center-provider" owner="foundation" organization="topstech"/>
+
+    <dubbo:registry address="zookeeper://192.168.255.76:2181?backup=192.168.255.77:2181,192.168.255.78:2181"/>
+
+    <!--uncomment this if you want to test dubbo's monitor-->
+    <!--<dubbo:monitor protocol="registry"/>-->
+
+    <!-- here we demonstrate both annotation-based and xml-based configs -->
+    <!--<dubbo:annotation package="com.tops001" />-->
+
+    <dubbo:protocol name="dubbo" serialization="kryo" />
+    <!--<dubbo:protocol name="dubbo" serialization="fst" optimizer="com.alibaba.dubbo.demo.SerializationOptimizerImpl"/>-->
+
+    <!--<dubbo:protocol name="dubbo" serialization="nativejava"/>-->
+    <!--<dubbo:protocol name="dubbo" serialization="hessian2"/>-->
+    <!--<dubbo:protocol name="dubbo" serialization="fastjson"/>-->
+    <!--<dubbo:protocol name="dubbo" serialization="dubbo"/>-->
+
+
+    <!--TODO according to the spring convention, we should use something like keep-alive-->
+    <!-- use netty server -->
+    <!--<dubbo:protocol name="rest" port="8888" keepalive="true" server="netty" iothreads="5" threads="100" contextpath="services"/>-->
+
+    <!-- use tjws server -->
+    <!--<dubbo:protocol name="rest" port="8888" server="tjws" contextpath="services"/>-->
+
+    <!-- use tomcat server -->
+    <!-- <dubbo:protocol name="rest" port="8888" threads="500" contextpath="services" server="tomcat" accepts="500"
+                    extension="com.alibaba.dubbo.demo.extension.TraceInterceptor,
+                    com.alibaba.dubbo.demo.extension.TraceFilter,
+                    com.alibaba.dubbo.demo.extension.ClientTraceFilter,
+                    com.alibaba.dubbo.demo.extension.DynamicTraceBinding,
+                    com.alibaba.dubbo.demo.extension.CustomExceptionMapper,
+                    com.alibaba.dubbo.rpc.protocol.rest.support.LoggingFilter"/> -->
+
+    <!-- use the external tomcat or other server with the servlet approach; the port and contextpath must be exactly the same as those in external server -->
+
+    <dubbo:protocol name="cxfrest" port="8090" contextpath="broker-center-provider/v1" server="servlet"
+                    extension="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider,
+    				org.apache.cxf.jaxrs.validation.JAXRSBeanValidationFeature,
+    				org.apache.cxf.jaxrs.swagger.Swagger2Feature,
+    				org.apache.cxf.jaxrs.validation.ValidationExceptionMapper,
+    				com.tops001.core.service.filter.ExceptionHandler,
+    				com.tops001.core.service.filter.ApiOriginFilter"/>
+
+    <!--<dubbo:protocol name="http" port="8889"/>-->
+    <!--<dubbo:protocol name="hessian" port="8890"/>-->
+    <!--<dubbo:protocol name="webservice" port="8892"/>-->
+
+    <!--<dubbo:service interface="com.alibaba.dubbo.demo.bid.BidService" ref="bidService"  protocol="dubbo"/>-->
+
+    <!--&lt;!&ndash; we add the group property since there's another annotation-configured service impl: com.alibaba.dubbo.demo.user.facade.AnnotationDrivenUserRestServiceImpl &ndash;&gt;-->
+    <!--<dubbo:service interface="com.alibaba.dubbo.demo.user.UserService" ref="userService"  protocol="dubbo" group="xmlConfig"/>-->
+
+    <!--<dubbo:service interface="com.alibaba.dubbo.demo.user.facade.UserRestService" ref="userRestService" protocol="dubbo,cxfrest" validation="true"/>-->
+    <!--<dubbo:service interface="com.alibaba.dubbo.demo.user.facade.AnotherUserRestService" ref="anotherUserRestService"  protocol="cxfrest"  timeout="2000" connections="100" validation="true"/>-->
+
+    <!--<dubbo:service interface="com.alibaba.dubbo.demo.user.facade.OrderService" ref="orderService"  protocol="cxfrest"  timeout="2000" connections="100" validation="true"/>-->
+    <!--<dubbo:service interface="com.alibaba.dubbo.demo.beanvalidation.BookStoreWithValidation" ref="bookStore" protocol="cxfrest"  timeout="2000" connections="100" validation="true"/>-->
+    <!--<dubbo:service interface="com.alibaba.dubbo.demo.beanvalidation.BookStoreWithValidationPerRequest" ref="bookStorePerReq" protocol="cxfrest"  timeout="2000" connections="100" validation="true"/>-->
+
+    <!--<bean id="bidService" class="com.alibaba.dubbo.demo.bid.BidServiceImpl" />-->
+
+    <!--<bean id="userService" class="com.alibaba.dubbo.demo.user.UserServiceImpl" />-->
+
+    <!--<bean id="userRestService" class="com.alibaba.dubbo.demo.user.facade.UserRestServiceImpl">-->
+        <!--<property name="userService" ref="userService"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="anotherUserRestService" class="com.alibaba.dubbo.demo.user.facade.AnotherUserRestServiceImpl">-->
+        <!--<property name="userService" ref="userService"/>-->
+    <!--</bean>-->
+    <!--<bean id="orderService" class="com.alibaba.dubbo.demo.user.facade.OrderServiceImpl">-->
+    <!--</bean>-->
+    <!--<bean id="bookStore" class="com.alibaba.dubbo.demo.beanvalidation.BookStoreWithValidationImpl"/>-->
+    <!--<bean id="bookStorePerReq" class="com.alibaba.dubbo.demo.beanvalidation.BookStoreWithValidationPerRequestImpl"/>-->
+
+    <dubbo:service interface="com.tops001.broker.ITestService" ref="testService"  protocol="cxfrest" group="dev" version="1.0.0" />
+    <bean id="testService" class="com.tops001.broker.service.TestService"/>
+
+    <dubbo:service interface="com.tops001.company.IBrokerCompanyService" ref="companyService"  protocol="cxfrest" group="dev" version="1.0.0"/>
+    <bean id="companyService" class="com.tops001.company.service.BrokerCompanyService"/>
+    <dubbo:service interface="com.tops001.shop.IBrokerShopService" ref="shopService" protocol="cxfrest" group="dev" version="1.0.0"/>
+    <bean id="shopService" class="com.tops001.shop.service.BrokerShopService"/>
+    <dubbo:service interface="com.tops001.broker.IBrokerService" ref="brokerService" protocol="cxfrest" group="dev" version="1.0.0"/>
+    <bean id="brokerService" class="com.tops001.broker.service.BrokerService"/>
+    <dubbo:service interface="com.tops001.city.ICityService" ref="cityService" protocol="cxfrest" group="dev" version="1.0.0"/>
+    <bean id="cityService" class="com.tops001.city.service.CityService"/>
+    <dubbo:service interface="com.tops001.general.IGeneralService" ref="generalService" protocol="cxfrest" group="dev" version="1.0.0"/>
+    <bean id="generalService" class="com.tops001.general.service.GeneralService"/>
+
+</beans>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tops001.city.dao.ICityMapper">
+
+    <update id="updateCityStatus" parameterType="com.tops001.domain.city.parameters.CityParameter">
+        UPDATE tbc_province_city
+        <set>
+            <if test="cityStatus != null and (cityStatus == 1 or cityStatus == 0)">
+                city_status = #{cityStatus}
+            </if>
+        </set>
+        WHERE city_id = #{cityId}
+    </update>
+
+    <select id="selectCityByCityName" parameterType="java.lang.String" resultType="city">
+        SELECT city_id,city_name
+        FROM tbc_province_city
+        <where>
+            <if test="cityName != null">
+                AND city_name like CONCAT('%','${cityName}','%' )
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOpenCity" parameterType="java.lang.String" resultType="city">
+        SELECT city_id,city_name,city_status
+        FROM tbc_province_city
+        <where>
+            <if test="cityName != null and cityName != ''">
+                AND city_name like CONCAT('%','${cityName}','%' )
+            </if>
+            <if test="1">
+                AND city_status = 1
+            </if>
+        </where>
+        ORDER BY CONVERT( city_name USING gbk ) COLLATE gbk_chinese_ci ASC
+    </select>
+
+
+</mapper>

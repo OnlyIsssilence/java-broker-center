@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tops001.broker.dao.ITestMapper">
+    <select id="findById" resultType="Test" parameterType="java.lang.Long" >
+        select id as brokerId,city_id,name as brokerName,phone as brokerPhone,pic_url as brokerPicImage from test where id = #{brokerId} and status=2
+    </select>
+    <update id="deleteById" parameterType="java.lang.Long" >
+        update test
+        set status=1
+        where id = #{brokerId}
+    </update>
+</mapper>

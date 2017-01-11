@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tops001.company.dao.ICompanyMapper">
+    <!--公司类型 1微型 2小型 3中型 4大型 ___排序键 0按添加时间 1按门店数量 2按经纪人数量-->
+    <select id="findCompanyList" parameterType="com.tops001.domain.company.parameters.BrokerCompanyParameter"
+            resultType="brokerCompany">
+        SELECT
+        company_id,company_name,company_code,province_name,city_id,city_name,shop_number,broker_number,create_time
+        FROM tbc_broker_company
+        <where>
+            <if test="cityId != null and cityId != 0 ">
+                AND city_id = #{cityId}
+            </if>
+
+            <if test="companyType != null and companyType != 0">
+                AND ${shopScale}
+            </if>
+            <if test="companyName != null and companyName != '' ">
+                AND company_name like CONCAT('%','${companyName}','%' )
+            </if>
+        </where>
+        <if test="orderBy != null and orderBy != 0">
+            ORDER BY ${orderByName}
+        </if>
+        limit #{startRow},#{pageSize}
+    </select>
+
+    <select id="getCompanyCount" parameterType="com.tops001.domain.company.parameters.BrokerCompanyParameter"
+            resultType="Long">
+        SELECT
+        count(1)
+        FROM tbc_broker_company
+        <if test="param != null">
+            <where>
+                <if test="param.cityId != null and param.cityId != 0 ">
+                    AND city_id = #{param.cityId}
+                </if>
+                <if test="param.companyType != null and param.companyType != 0 ">
+                    AND ${param.shopScale}
+                </if>
+                <if test="param.companyName != null and param.companyName != '' ">
+                    AND company_name like CONCAT('%','${param.companyName}','%' )
+                </if>
+            </where>
+        </if>
+    </select>
+
+    <!--;排序键:1按门店数量 2按经纪人数量-->
+    <select id="findTopTenCompanyList" parameterType="com.tops001.domain.company.parameters.BrokerTopCompanyParameter"
+            resultType="brokerCompany">
+        SELECT
+        company_id,company_name,company_code,province_name,city_id,city_name,shop_number,broker_number,create_time
+        FROM tbc_broker_company
+        <if test="orderBy != null and orderBy != 0">
+            ORDER BY ${orderByName}
+        </if>
+
+        <if test="pageSize != null and pageSize != 0 ">
+            limit #{pageSize}
+        </if>
+    </select>
+
+
+    <!-- 公司名称，成立时间，联系人,联系电话,电子邮箱,所在城市,详细地址,地区,门店编号,接入时间-->
+    <select id="findCompanyByCompanyId" parameterType="java.lang.Integer" resultType="brokerCompany">
+        SELECT company_id,province_name,province_id,company_name,formation_date,contact_name,phone,email,city_id,
+        city_name,address,longitude,latitude,company_code,create_time
+        FROM tbc_broker_company
+        WHERE company_id = ${_parameter}
+
+    </select>
+</mapper>

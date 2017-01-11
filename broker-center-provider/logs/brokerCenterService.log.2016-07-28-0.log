@@ -1,0 +1,65 @@
+2016-07-28 18:16:37.829 [localhost-startStop-1] INFO  com.tops001.core.component.MybatisFactroy -scan mybatis entity com.tops001.broker.entity
+2016-07-28 18:16:37.832 [localhost-startStop-1] INFO  com.tops001.core.component.MybatisFactroy -scan mybatis entity com.tops001.httpInvoker.entity
+2016-07-28 18:16:37.833 [localhost-startStop-1] INFO  com.tops001.core.component.MybatisFactroy -scan mybatis entity com.tops001.httpInvoker.entity
+2016-07-28 18:16:37.833 [localhost-startStop-1] INFO  com.tops001.core.component.MybatisFactroy -scan mybatis entity com.tops001.httpInvoker.entity
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:zookeeper.version=3.4.6-1569965, built on 02/20/2014 09:09 GMT
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:host.name=hh1
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.version=1.8.0_65
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.vendor=Oracle Corporation
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.home=E:\Java\jdk1.8\jre
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.class.path=E:\IntelliJ IDEA 15.0.2\plugins\maven\lib\maven3\boot\plexus-classworlds-2.4.jar;E:\IntelliJ IDEA 15.0.2\lib\idea_rt.jar
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.library.path=E:\Java\jdk1.8\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\NetSarang;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Redis;C:\Python27;E:\Java\jdk1.8\bin;E:\Java\jdk1.8\jre\bin;D:\apache-maven-3.3.9\bin;E:\Tomcat 7.0\lib;E:\Tomcat 7.0\bin;C:\Program Files\Git\cmd;C:\Program Files\TortoiseGit\bin;.
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.io.tmpdir=C:\Users\ADMINI~1\AppData\Local\Temp\
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.compiler=<NA>
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:os.name=Windows 7
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:os.arch=amd64
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:os.version=6.1
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:user.name=Administrator
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:user.home=C:\Users\Administrator
+2016-07-28 18:16:42.197 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:user.dir=D:\Java\java-broker-center\broker-center-provider
+2016-07-28 18:16:42.198 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Initiating client connection, connectString=192.168.255.76:2181,192.168.255.77:2181,192.168.255.78:2181 sessionTimeout=60000 watcher=org.I0Itec.zkclient.ZkClient@256a15f
+2016-07-28 18:16:42.233 [localhost-startStop-1-SendThread(192.168.255.77:2181)] INFO  org.apache.zookeeper.ClientCnxn -Opening socket connection to server 192.168.255.77/192.168.255.77:2181. Will not attempt to authenticate using SASL (unknown error)
+2016-07-28 18:16:42.248 [localhost-startStop-1-SendThread(192.168.255.77:2181)] INFO  org.apache.zookeeper.ClientCnxn -Socket connection established to 192.168.255.77/192.168.255.77:2181, initiating session
+2016-07-28 18:16:42.267 [localhost-startStop-1-SendThread(192.168.255.77:2181)] INFO  org.apache.zookeeper.ClientCnxn -Session establishment complete on server 192.168.255.77/192.168.255.77:2181, sessionid = 0x255e31e29d40136, negotiated timeout = 40000
+2016-07-28 18:16:42.829 [localhost-startStop-1] INFO  org.apache.cxf.endpoint.ServerImpl -Setting the server's publish address to be /
+2016-07-28 18:16:42.990 [localhost-startStop-1] INFO  org.reflections.Reflections -Reflections took 38 ms to scan 4 urls, producing 41 keys and 44 values 
+2016-07-28 18:20:36.848 [http-bio-8080-exec-2] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==>  Preparing: select id as brokerId,city_id,name as brokerName,phone as brokerPhone,pic_url as brokerPicImage from test where id = ? and status=2 
+2016-07-28 18:20:36.868 [http-bio-8080-exec-2] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==> Parameters: 2(Long)
+2016-07-28 18:20:36.893 [http-bio-8080-exec-2] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -<==      Total: 1
+2016-07-28 18:20:58.725 [http-bio-8080-exec-3] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==>  Preparing: select id as brokerId,city_id,name as brokerName,phone as brokerPhone,pic_url as brokerPicImage from test where id = ? and status=2 
+2016-07-28 18:20:58.727 [http-bio-8080-exec-3] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==> Parameters: 1(Long)
+2016-07-28 18:20:58.741 [http-bio-8080-exec-3] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -<==      Total: 1
+2016-07-28 18:22:09.686 [http-bio-8080-exec-5] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==>  Preparing: select id as brokerId,city_id,name as brokerName,phone as brokerPhone,pic_url as brokerPicImage from test where id = ? and status=2 
+2016-07-28 18:22:09.686 [http-bio-8080-exec-5] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==> Parameters: 1(Long)
+2016-07-28 18:22:09.699 [http-bio-8080-exec-5] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -<==      Total: 1
+2016-07-28 18:22:27.453 [http-bio-8080-exec-6] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==>  Preparing: select id as brokerId,city_id,name as brokerName,phone as brokerPhone,pic_url as brokerPicImage from test where id = ? and status=2 
+2016-07-28 18:22:27.454 [http-bio-8080-exec-6] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==> Parameters: 2(Long)
+2016-07-28 18:22:27.468 [http-bio-8080-exec-6] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -<==      Total: 1
+2016-07-28 18:23:07.597 [localhost-startStop-1] INFO  com.tops001.core.component.MybatisFactroy -scan mybatis entity com.tops001.broker.entity
+2016-07-28 18:23:07.601 [localhost-startStop-1] INFO  com.tops001.core.component.MybatisFactroy -scan mybatis entity com.tops001.httpInvoker.entity
+2016-07-28 18:23:07.601 [localhost-startStop-1] INFO  com.tops001.core.component.MybatisFactroy -scan mybatis entity com.tops001.httpInvoker.entity
+2016-07-28 18:23:07.601 [localhost-startStop-1] INFO  com.tops001.core.component.MybatisFactroy -scan mybatis entity com.tops001.httpInvoker.entity
+2016-07-28 18:23:09.739 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:zookeeper.version=3.4.6-1569965, built on 02/20/2014 09:09 GMT
+2016-07-28 18:23:09.739 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:host.name=hh1
+2016-07-28 18:23:09.739 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.version=1.8.0_65
+2016-07-28 18:23:09.739 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.vendor=Oracle Corporation
+2016-07-28 18:23:09.739 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.home=E:\Java\jdk1.8\jre
+2016-07-28 18:23:09.739 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.class.path=E:\IntelliJ IDEA 15.0.2\plugins\maven\lib\maven3\boot\plexus-classworlds-2.4.jar;E:\IntelliJ IDEA 15.0.2\lib\idea_rt.jar
+2016-07-28 18:23:09.739 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.library.path=E:\Java\jdk1.8\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\NetSarang;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Redis;C:\Python27;E:\Java\jdk1.8\bin;E:\Java\jdk1.8\jre\bin;D:\apache-maven-3.3.9\bin;E:\Tomcat 7.0\lib;E:\Tomcat 7.0\bin;C:\Program Files\Git\cmd;C:\Program Files\TortoiseGit\bin;.
+2016-07-28 18:23:09.739 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.io.tmpdir=C:\Users\ADMINI~1\AppData\Local\Temp\
+2016-07-28 18:23:09.739 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:java.compiler=<NA>
+2016-07-28 18:23:09.740 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:os.name=Windows 7
+2016-07-28 18:23:09.740 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:os.arch=amd64
+2016-07-28 18:23:09.740 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:os.version=6.1
+2016-07-28 18:23:09.740 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:user.name=Administrator
+2016-07-28 18:23:09.740 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:user.home=C:\Users\Administrator
+2016-07-28 18:23:09.740 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Client environment:user.dir=D:\Java\java-broker-center\broker-center-provider
+2016-07-28 18:23:09.741 [localhost-startStop-1] INFO  org.apache.zookeeper.ZooKeeper -Initiating client connection, connectString=192.168.255.76:2181,192.168.255.77:2181,192.168.255.78:2181 sessionTimeout=60000 watcher=org.I0Itec.zkclient.ZkClient@2eb96a33
+2016-07-28 18:23:09.768 [localhost-startStop-1-SendThread(192.168.255.78:2181)] INFO  org.apache.zookeeper.ClientCnxn -Opening socket connection to server 192.168.255.78/192.168.255.78:2181. Will not attempt to authenticate using SASL (unknown error)
+2016-07-28 18:23:09.779 [localhost-startStop-1-SendThread(192.168.255.78:2181)] INFO  org.apache.zookeeper.ClientCnxn -Socket connection established to 192.168.255.78/192.168.255.78:2181, initiating session
+2016-07-28 18:23:09.795 [localhost-startStop-1-SendThread(192.168.255.78:2181)] INFO  org.apache.zookeeper.ClientCnxn -Session establishment complete on server 192.168.255.78/192.168.255.78:2181, sessionid = 0x355e3b42f460127, negotiated timeout = 40000
+2016-07-28 18:23:10.338 [localhost-startStop-1] INFO  org.apache.cxf.endpoint.ServerImpl -Setting the server's publish address to be /
+2016-07-28 18:23:10.512 [localhost-startStop-1] INFO  org.reflections.Reflections -Reflections took 40 ms to scan 4 urls, producing 41 keys and 44 values 
+2016-07-28 18:23:20.490 [http-bio-8080-exec-1] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==>  Preparing: select id as brokerId,city_id,name as brokerName,phone as brokerPhone,pic_url as brokerPicImage from test where id = ? and status=2 
+2016-07-28 18:23:20.509 [http-bio-8080-exec-1] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -==> Parameters: 2(Long)
+2016-07-28 18:23:20.535 [http-bio-8080-exec-1] DEBUG dao.com.tops001.broker.dao.ITestMapper.findById -<==      Total: 1

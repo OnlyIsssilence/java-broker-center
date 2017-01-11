@@ -1,0 +1,16 @@
+autobuild:
+  script:
+    - mvn install
+  tags:
+    - java
+    - mvn
+
+
+auto_mavn_deploy:
+  script:
+    - mvn deploy
+  only:
+    - develop
+  tags:
+    - java
+    - mvn

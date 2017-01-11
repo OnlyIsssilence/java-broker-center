@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tops001.shop.dao.IShopMapper">
+    <!--排序键 1按新房成交量 2按二手房成交量 3装修宝成交量 4经纪人数量-->
+    <select id="findTopShopList" parameterType="com.tops001.domain.shop.parameters.BrokerTopShopParameter"
+            resultType="brokerShop">
+        SELECT
+        s.address,s.company_id,c.company_name,s.shop_id,s.shop_name,s.shop_code,s.province_id,s.province_name,s.city_id,s.city_name,
+        s.create_time,s.new_house_deal_num,s.second_house_deal_num,s.decorate_deal_num,s.broker_number
+        FROM tbc_broker_shop s
+        left join tbc_broker_company c on s.company_id = c.company_id
+
+        <where>
+            <if test="cityId != null and cityId != 0">
+                AND city_id = #{cityId}
+            </if>
+        </where>
+        <if test="orderByIndex != null and orderByIndex != ''">
+            ORDER BY ${orderByName}
+        </if>
+        <if test="pageSize != null and pageSize != 0 ">
+            limit #{pageSize}
+        </if>
+    </select>
+
+    <select id="getShopCount" parameterType="com.tops001.domain.shop.parameters.BrokerShopParameter" resultType="Long">
+        SELECT
+        count(1)
+        FROM tbc_broker_shop
+        <if test="param != null">
+            <where>
+                <if test="param.cityId != null and param.cityId != 0">
+                    AND city_id = #{param.cityId}
+                </if>
+                <if test="param.companyId != null and param.companyId != 0">
+                    AND company_id = #{param.companyId}
+                </if>
+                <if test="param.shopNameOrCode != null and param.shopNameOrCode !=''">
+                    AND (shop_name like CONCAT('%','${param.shopNameOrCode}','%')
+                    OR shop_code like CONCAT('%','${param.shopNameOrCode}','%'))
+                </if>
+            </where>
+        </if>
+
+    </select>
+
+    <select id="findShopList" parameterType="com.tops001.domain.shop.parameters.BrokerShopParameter"
+            resultType="brokerShop">
+        SELECT
+        shop_name,shop_code,shop_id,province_id,province_name,city_id,city_name,address,broker_number,create_time
+        FROM tbc_broker_shop
+        <where>
+            <if test="cityId != null and cityId != 0">
+                AND city_id = #{cityId}
+            </if>
+            <if test="companyId != null and companyId != 0">
+                AND company_id = #{companyId}
+            </if>
+            <if test="shopNameOrCode != null and shopNameOrCode !=''">
+                AND (shop_name like CONCAT('%','${shopNameOrCode}','%')
+                OR shop_code like CONCAT('%','${shopNameOrCode}','%'))
+            </if>
+
+        </where>
+
+        <if test="orderBy != null">
+            ORDER BY ${orderByName}
+        </if>
+        limit #{startRow},#{pageSize}
+    </select>
+
+    <!-- 名称，成立时间，联系人,联系电话,电子邮箱,所在城市,详细地址,地区,门店编号,接入时间-->
+    <select id="findShopByShopId" parameterType="java.lang.Integer" resultType="brokerShop">
+        SELECT shop.shop_id,shop.shop_name,shop.formation_date,shop.contact_name,shop.phone,shop.email,shop.city_id,
+                shop.city_name,shop.address,shop.longitude,shop.latitude,shop.shop_code,shop.create_time
+                ,shop.company_id,company.company_name
+        FROM tbc_broker_shop shop left join tbc_broker_company company on shop.company_id = company.company_id
+        WHERE shop.shop_id = ${_parameter}
+    </select>
+
+</mapper>
